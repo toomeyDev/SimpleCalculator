@@ -15,6 +15,34 @@ def intro():
         ans = input("Press enter to continue: \n")
 
 
+def perform_operation(operand_a = None, operator = None, operand_b = None):
+    output = 0
+
+    # if three non-None values aren't present, return None
+    if operand_a == None or operand_b == None or operator == None:
+        return None
+
+    if operator == '+':
+        output = operations.addition(operand_a, operand_b)
+    elif operator == '-':
+        output = operations.subtraction(operand_a, operand_b)
+    elif operator == '*':
+        output = operations.multiplication(operand_a, operand_b)
+    elif operator == '/':
+        output = operations.division(operand_a, operand_b)
+    return output
+
+# requires fixing
+def execute_operation_stream(stream): 
+    operation_stream = stream
+    op_queue = []
+    op_queue[0] = operation_stream[0]
+    while True:
+        op_queue[1] = operation_stream[1]
+        
+        op_queue[2] = operation_stream[2]
+        
+        
 def menu():
     operators = ['+','-','/','%','*'] # store valid operators
     
@@ -32,7 +60,7 @@ def menu():
             operation_stream.append(user_input[i])
     print(operation_stream) # for testing
 
-        
+    
 
 def main():
     intro()
