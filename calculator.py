@@ -34,14 +34,15 @@ def perform_operation(operand_a = None, operator = None, operand_b = None):
 
 # requires fixing
 def execute_operation_stream(stream): 
-    operation_stream = stream
-    op_queue = []
-    op_queue[0] = operation_stream[0]
-    while True:
-        op_queue[1] = operation_stream[1]
-        
-        op_queue[2] = operation_stream[2]
-        
+    ops = []
+    for item in stream:
+        ops.append(item)
+        if len(ops) == 3:
+            ops_result = perform_operation(ops[0], ops[1], ops[2])
+            ops.clear()
+            ops.append(ops_result)
+    return(ops[0]) # return final result
+            
         
 def menu():
     operators = ['+','-','/','%','*'] # store valid operators
@@ -49,17 +50,18 @@ def menu():
     # prompt for input
     user_input = input("Enter an operation (IE: '5 + 10')\n"
     +"any detected valid operations will be executed.\n")
+    user_input = user_input.split()
 
-    # parse valid numbers and operators from input
     operation_stream = [] # store valid numbers and operators
-    for i in range(0, len(user_input)):
-        if user_input[i].isnumeric():
-            # if an integer is detected, parse and add to stream
-            operation_stream.append((int)(user_input[i]))
-        if user_input[i] in operators:
-            operation_stream.append(user_input[i])
-    print(operation_stream) # for testing
+    for item in user_input:
+        # parse valid numbers and operators from input
+        if item.isnumeric():
+            operation_stream.append(int(item))
+        elif item in operators:
+            operation_stream.append(item)
 
+    result = execute_operation_stream(operation_stream)
+    print(f"Result is {result}")
     
 
 def main():

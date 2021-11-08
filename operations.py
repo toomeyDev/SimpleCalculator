@@ -16,5 +16,5 @@ def multiplication(multiplicand: int, multiplier: int):
     return result_product
     
 def division(dividend: int, divisor: int):
-    result_quotient = dividend / divisor
+    result_quotient = int(dividend / divisor)
     return result_quotient
