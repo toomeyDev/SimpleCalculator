@@ -1,5 +1,6 @@
 import operations
 import os
+import sys
 from time import sleep
 """
 Central file for sequencing and user input associated with
@@ -32,7 +33,7 @@ def perform_operation(operand_a = None, operator = None, operand_b = None):
         output = operations.division(operand_a, operand_b)
     return output
 
-# requires fixing
+
 def execute_operation_stream(stream): 
     ops = []
     for item in stream:
@@ -42,26 +43,43 @@ def execute_operation_stream(stream):
             ops.clear()
             ops.append(ops_result)
     return(ops[0]) # return final result
+
+
+def user_prompt(mode = 0):
+        if mode == 0:
+            # prompt for input
+            user_input = input("Enter an operation (IE: '5 + 10')\n"
+            +"any detected valid operations will be executed.\n")
+        elif mode == 1:
+            user_input = input("\nOperation: ")
+        return user_input.split()
             
         
 def menu():
     operators = ['+','-','/','%','*'] # store valid operators
+    mode = 0
     
-    # prompt for input
-    user_input = input("Enter an operation (IE: '5 + 10')\n"
-    +"any detected valid operations will be executed.\n")
-    user_input = user_input.split()
-
-    operation_stream = [] # store valid numbers and operators
-    for item in user_input:
-        # parse valid numbers and operators from input
-        if item.isnumeric():
-            operation_stream.append(int(item))
-        elif item in operators:
-            operation_stream.append(item)
-
-    result = execute_operation_stream(operation_stream)
-    print(f"Result is {result}")
+    while(True):
+        user_input = user_prompt(mode)
+        operation_stream = [] # store valid numbers and operators
+        for item in user_input:
+            # parse valid numbers and operators from input
+            if item.isnumeric():
+                operation_stream.append(int(item))
+            elif item in operators:
+                operation_stream.append(item)
+            elif "exit" in item.lower():
+                print("Exiting...")
+                sys.exit(0)
+        if len(operation_stream) > 0:
+            result = execute_operation_stream(operation_stream)
+            print(f"Result is {result}")
+            mode = 1 # disables the initial prompt for valid operation format
+        else:
+            print("Invalid input recieved, please enter an operation,\n")
+            print("IE: '6 + 8 * 10'")
+            continue
+        
     
 
 def main():
