@@ -18,4 +18,6 @@ def multiplication(multiplicand: int, multiplier: int):
 def division(dividend: int, divisor: int):
     result_quotient = int(dividend / divisor)
     result_remainder = int(dividend % divisor)
+    if result_remainder != 0:
+        return result_quotient, " remainder of ", result_remainder
     return result_quotient
